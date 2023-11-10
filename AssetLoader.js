@@ -1,6 +1,6 @@
-export class AssetLoader extends EventTarget {
-    static COMPLETE = 'complete';
+import { COMPLETE } from './constants.js';
 
+export class AssetLoader extends EventTarget {
     constructor(options) {
         super();
         const {requestLogFunction=null, errorFunction=null, progressFunction=null, completeLogFunction=null} = options;
@@ -63,7 +63,7 @@ export class AssetLoader extends EventTarget {
             const blob = xhr.response;
             this.blobArray[i] = blob;
             this.completeLogFunction(i);
-            if (this.fileCount === this.fileTotal) this.dispatchEvent(new Event(AssetLoader.COMPLETE));
+            if (this.fileCount === this.fileTotal) this.dispatchEvent(new Event(COMPLETE));
         } else this.onError(url);
     };
     dispose() {

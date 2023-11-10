@@ -9,8 +9,8 @@ export function secondsToHHMMSS(seconds) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-    const HH = hours > 0 ? `${String(hours).padStart(2, '0')}:` : '';
-    const MM = String(minutes).padStart(2, '0');
-    const SS = String(remainingSeconds).padStart(2, '0');
+    const HH = hours > 0 ? (hours < 10 ? '0' + hours : hours) + ':' : '';
+    const MM = minutes < 10 ? '0' + minutes : minutes;
+    const SS = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
     return `${HH}${MM}:${SS}`;
 }
