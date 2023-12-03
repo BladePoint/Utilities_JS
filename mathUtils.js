@@ -14,3 +14,14 @@ export function secondsToHHMMSS(seconds) {
     const SS = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
     return `${HH}${MM}:${SS}`;
 }
+export function decimalColor(colorHex, decimal) {
+    colorHex = colorHex.replace(/^#/, '');
+    let colorInt = parseInt(colorHex, 16);
+    let r = (colorInt >> 16) & 255;
+    let g = (colorInt >> 8) & 255;
+    let b = colorInt & 255;
+    r = clamp(Math.round(r * decimal), 0, 255);
+    g = clamp(Math.round(g * decimal), 0, 255);
+    b = clamp(Math.round(b * decimal), 0, 255);
+    return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+}

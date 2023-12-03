@@ -1,9 +1,9 @@
-import { COMPLETE } from './constants.js';
+import { COMPLETE, noop } from './constants.js';
 
 export class AssetLoader extends EventTarget {
     constructor(options) {
         super();
-        const {requestLogFunction=null, errorFunction=null, progressFunction=null, completeLogFunction=null} = options;
+        const {requestLogFunction=noop, errorFunction=noop, progressFunction=noop, completeLogFunction=noop} = options;
         this.requestLogFunction = requestLogFunction;
         this.errorFunction = errorFunction;
         this.progressFunction = progressFunction;
@@ -24,7 +24,7 @@ export class AssetLoader extends EventTarget {
         this.downloadTotal = 0;
         for (let i=0; i<this.fileTotal; i++) {
             const url = urlArray[i];
-            if (this.requestLogFunction) this.requestLogFunction(url);
+            this.requestLogFunction(url);
             const xhr = new XMLHttpRequest();
             xhr.open('GET', url, true);
             xhr.responseType = 'blob';
@@ -44,11 +44,9 @@ export class AssetLoader extends EventTarget {
             else console.log('Content-Length header not found in response.');
         }
     }
-    onError(url) {
-        if (this.errorFunction) this.errorFunction(url);
-    }
+    onError(url) {this.errorFunction(url);}
     calcProgress(i, evt) {
-        if (this.progressFunction) {
+        if (this.progressFunction != noop) {
             this.progressArray[i] = evt.loaded;
             if (this.areHeadersCounted) {
                 const totalProgress = this.progressArray.reduce((total, loaded) => total + loaded, 0);
