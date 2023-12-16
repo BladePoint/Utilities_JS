@@ -3,6 +3,7 @@ export const UP = 'up';
 export const DOWN = 'down';
 export const RIGHT = 'right';
 export const LEFT = 'left';
+export const BLOCK = 'block'
 export const NONE = 'none'
 export const LEFT_TO_RIGHT = 'leftToRight';
 export const RIGHT_TO_LEFT = 'rightToLeft';

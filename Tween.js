@@ -17,7 +17,7 @@ export class Tween {
     static tweenOpacity(element, endOpacity, durationInSeconds, onComplete=noop, delayInSeconds=0) {
         const tween = Tween.getInstance({
             targetObject: element.style,
-            targetProperty:'opacity',
+            targetProperty: 'opacity',
             propertyValue: endOpacity,
             duration: durationInSeconds * 1000,
             onComplete: cleanUp
@@ -42,18 +42,17 @@ export class Tween {
         this.duration = duration;
         this.onUpdate = onUpdate;
         this.onComplete = onComplete;
-        this.startValue = this.targetObject[this.targetProperty];
+        this.startValue = parseFloat(this.targetObject[this.targetProperty]);
         this.deltaValue = propertyValue - this.startValue;
         this.startTime = null;
     }
     updateTween(timestamp) {
         if (this.isStopped) return;
         this.startTime = this.startTime || timestamp;
-        const decimalProgress = Math.min(1, (timestamp - this.startTime) / this.duration);
-        const decimalRemaining = 1 - decimalProgress;
-        this.targetObject[this.targetProperty] = this.startValue*decimalRemaining + this.deltaValue*decimalProgress;
+        const progress = Math.min(1, (timestamp - this.startTime) / this.duration);
+        this.targetObject[this.targetProperty] = this.startValue + this.deltaValue*progress;
         this.onUpdate();
-        if (decimalProgress < 1) requestAnimationFrame(this.updateTween);
+        if (progress < 1) requestAnimationFrame(this.updateTween);
         else {
             this.isStopped = true;
             this.onComplete();
