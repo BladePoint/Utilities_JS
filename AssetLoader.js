@@ -50,7 +50,7 @@ export class AssetLoader extends EventTarget {
             this.progressArray[i] = evt.loaded;
             if (this.areHeadersCounted) {
                 const totalProgress = this.progressArray.reduce((total, loaded) => total + loaded, 0);
-                const progress = totalProgress / this.downloadTotal * 100;
+                const progress = totalProgress / this.downloadTotal;
                 this.progressFunction(progress);
             }
         }
